@@ -10,7 +10,6 @@ library("shinyWidgets")
 library("shinycssloaders")
 
 
-
 #Source dependencies
 source("./modules/moduleVizumap.R")
 
@@ -27,6 +26,8 @@ ui <- fluidPage(
   VizumapUI("Vizumap")
 )
 
+
+
 # # # # # # # # # # # # # # # # # # #
 
 #               Server              #
@@ -40,3 +41,4 @@ server <- function(input, output, session) {
 
 #Run UI and Server
 shinyApp(ui, server)
+

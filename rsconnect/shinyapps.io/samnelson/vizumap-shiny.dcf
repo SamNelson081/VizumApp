@@ -1,0 +1,13 @@
+name: vizumap-shiny
+title: vizumap-shiny
+username:
+account: samnelson
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2126359
+bundleId: 3020107
+url: https://samnelson.shinyapps.io/vizumap-shiny/
+when: 1587003908.6861
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|pixMap.R|UB_JOSS.rda|WhiteNoise.R
