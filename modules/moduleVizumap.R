@@ -87,10 +87,17 @@ VizumapUI <- function(id) {
               textInput(ns("excFunc"), "Insert Excedance Probability Function")
             ),
             conditionalPanel("input.useExcDataset == true", ns=ns,
-              fileInput(ns("excDataset"), "Upload a Dataset", accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv"))),
+              checkboxInput(ns("useCurrent"), "Use a column from the current dataset?"),
+              conditionalPanel("input.useCurrent == true", ns=ns, 
+                uiOutput(ns("excColCurrent"))           
+              ),             
+              conditionalPanel("input.useCurrent == false", ns=ns, 
+                fileInput(ns("excDataset"), "Upload a Dataset", accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv"))
+              ),
               uiOutput(ns("excCol"))
+              )
             ),
-          actionButton(ns("example"), label = "Run Example"),
+          actionButton(ns("example"), label = "Run"),
           hr(),
           conditionalPanel("input.plotType == 'Bivariate'", ns = ns,
                            prettyCheckbox(ns("axis"), "Flip Axis", FALSE),
@@ -323,9 +330,8 @@ VizumapServer <- function(input, output, session) {
     })
     
     
-    print("Re order df")
     data <- data[order(data[id]),]
-  print("Reorder done")
+
     return(list(type = "bivariate", dataset = data, polygons = data_polys, polylines = data_lines, map = m))
   }
   
@@ -481,6 +487,9 @@ VizumapServer <- function(input, output, session) {
     #Get the data
     
     
+    if(input$useExcDataset) {
+      
+    }
     
     #Bivariate map
     #m <- build_bmap(data = data, shapefile = shp, id = id, border = "state", terciles = TRUE, palette = isolate(palette()), flipAxis = isolate(input$axis))
@@ -735,9 +744,19 @@ VizumapServer <- function(input, output, session) {
     ))
   })
   
-  output$excCol <- renderUI({
-    selectizeInput(session$ns("excColInput"), "Excedance Column", names(excDataset()))
-    
+  output$excColCurrent <- renderUI({
+    req(input$useCurrent)
+    if(input$useCurrent) {
+      req(input$shapefile)
+      req(input$csvDataset)
+      
+      return(selectizeInput(session$ns("excCol-current"), "Excedance Column", unique(c(names(shapefile()@data), names(userDataset())))))
+    } else {
+      
+      req(input$excDataset)
+      return(selectizeInput(session$ns("excCol-current"), "Excedance Column", names(excDataset())))
+    }
+   
   })
   
   session$sendCustomMessage("init", "")
