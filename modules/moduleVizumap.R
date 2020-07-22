@@ -12,7 +12,7 @@ library("shinyjs")
 library("cowplot")
 library("scales")
 library("DescTools")
-library("animation")
+#library("animation")
 library("geojson")
 library("shinydashboardPlus")
 
