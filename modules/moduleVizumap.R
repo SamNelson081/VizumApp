@@ -84,6 +84,7 @@ VizumapUI <- function(id) {
           conditionalPanel("input.plotType == 'Excedance' && input.exampleDataset == 'Upload Your Own Data'", ns=ns,
             checkboxInput(ns("useExcDataset"), "Use a dataset for excedance?"),
             conditionalPanel("input.useExcDataset == false", ns=ns,
+              selectizeInput(ns("distrType"), "Choose a distribution type (Make sure you choose the right type for your data!)", choices=c("Random" = "r","Density" = "d", "Cumulative" = "p", "Quantile" = "q")),
               textInput(ns("excFunc"), "Insert Excedance Probability Function")
             ),
             conditionalPanel("input.useExcDataset == true", ns=ns,
@@ -489,6 +490,10 @@ VizumapServer <- function(input, output, session) {
     
     if(input$useExcDataset) {
       
+    } else {
+      distr <- input$distrType
+      
+      
     }
     
     #Bivariate map
@@ -725,8 +730,6 @@ VizumapServer <- function(input, output, session) {
           stop(safeError(e))
         }
       )
-      
-      
       return(df)
     })
   })
@@ -758,6 +761,8 @@ VizumapServer <- function(input, output, session) {
     }
    
   })
+  
+  
   
   session$sendCustomMessage("init", "")
 }

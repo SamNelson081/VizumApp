@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Animate a pixel map</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for animate {Vizumap}"><tr><td>animate {Vizumap}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Animate a pixel map</h2>
+
+<h3>Description</h3>
+
+<p>This function animates a pixel map created with <code><a href="build_pmap.html">build_pmap</a></code> so
+that the pixels ficker between a series of sampled values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+animate(pmap, flickerSpeed = 0.05, aniLength)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pmap</code></td>
+<td>
+<p>An object from <code><a href="build_pmap.html">build_pmap</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>flickerSpeed</code></td>
+<td>
+<p>A numeric value between 0 and 0.5.</p>
+</td></tr>
+<tr valign="top"><td><code>aniLength</code></td>
+<td>
+<p>An integer. A larger value corresponds with a longer
+animation; a value of at least 20 is recommended.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+# This code demonstrates how to animate a pixel map
+# It is not run here.
+#data(us_geo)
+#ca_geo &lt;- subset(us_geo, us_geo@data$STATE == "06")
+#pix &lt;- pixelate(ca_geo, id = "region")
+
+#data(us_data)
+#us_data$GEO.id2 &lt;- as.numeric(us_data$GEO.id2)
+#ca_data &lt;- subset(us_data, us_data$GEO.id2 &gt; 6000 &amp; us_data$GEO.id2 &lt; 7000)
+#ca_data &lt;- read.uv(data = ca_data, estimate = "pov_rate", error = "pov_moe")
+#row.names(ca_data) &lt;- seq(1, nrow(ca_data), 1)
+
+#df &lt;- data.frame(region = sapply(slot(ca_geo, "polygons"),
+#  function(x) slot(x, "ID")), name = unique(ca_geo@data$GEO_ID))
+#ca_data$region &lt;- df[match(ca_data$GEO_ID, df$name), 1]
+#ca_data$region &lt;- as.character(ca_data$region)
+
+#m &lt;- build_pmap(data = ca_data, distribution = "uniform", pixelGeo = pix, id = "region")
+
+#a &lt;- animate(m, aniLength = 25)
+#view(a)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Vizumap</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

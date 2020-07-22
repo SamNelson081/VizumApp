@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Build a glyph map</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for build_gmap {Vizumap}"><tr><td>build_gmap {Vizumap}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build a glyph map</h2>
+
+<h3>Description</h3>
+
+<p>This function builds a map that visualises estimates and errors simultaneously
+with rotated glyphs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+build_gmap(
+  data,
+  shapefile = NULL,
+  id = NULL,
+  size = 50,
+  border = NULL,
+  glyph = "icone",
+  palette = "Blues",
+  limits = NULL,
+  max_error = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>shapefile</code></td>
+<td>
+<p>A spatial polygons data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>Name of the common column shared by the objects passed to
+<code>data</code> and <code>shapefile</code>. The estimates and errors in the data frame
+will be matched to the geographical regions of the spatial polygons data
+frame through this column.</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>An integer between 1 and 100. Value controls the size of the glyphs.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Name of geographical borders to be added to the map. It must be
+one of <code><a href="../../maps/html/county.html">county</a></code>, <code><a href="../../maps/html/france.html">france</a></code>,
+<code><a href="../../maps/html/italy.html">italy</a></code>, <code><a href="../../maps/html/nz.html">nz</a></code>,
+<code><a href="../../maps/html/state.html">state</a></code>, <code><a href="../../maps/html/usa.html">usa</a></code> or
+<code><a href="../../maps/html/world.html">world</a></code> (see documentation for
+<code><a href="../../ggplot2/html/map_data.html">map_data</a></code> for more information). The borders will be
+refined to match latitute and longtidue coordinates provided in the data
+frame or spatial polygons data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>glyph</code></td>
+<td>
+<p>Name of glyph shape. Options include <code>icone</code> and <code>semi</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>palette</code></td>
+<td>
+<p>Name of colour palette. It must be one of <code>Blues</code>,
+<code>Greens</code>, <code>Greys</code>, <code>Oranges</code>, <code>Purples</code> or <code>Reds</code>
+(see documentation for <code><a href="../../ggplot2/html/scale_fill_distiller.html">scale_fill_distiller</a></code> for more
+information).</p>
+</td></tr>
+<tr valign="top"><td><code>limits</code></td>
+<td>
+<p>Limits for the legend. Default is NULL, which takes the limits
+to be the range of the data.</p>
+</td></tr>
+<tr valign="top"><td><code>max_error</code></td>
+<td>
+<p>maximum error value. Default is NULL, which takes the
+maximum from the error given</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If a shapefile is used, glyphs will be plotted at region
+centroids. If <code>shapefile</code> remains <code>NULL</code>, glyphs will be plotted at
+points on the map representing specific sites; in this case, the data frame
+must include latitude and longitude coordinates in columns <code>"long"</code> and
+<code>"lat"</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="build_gkey.html">build_gkey</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(us_data)
+data(us_geo)
+co_geo &lt;- subset(us_geo, us_geo@data$STATE == "08")
+us_data$GEO.id2 &lt;- as.numeric(us_data$GEO.id2)
+co_data &lt;- subset(us_data, us_data$GEO.id2 &gt; 8000 &amp; us_data$GEO.id2 &lt; 9000)
+co_data &lt;- read.uv(data = co_data, estimate = "pov_rate", error = "pov_moe")
+
+#build a glyph map
+map &lt;- build_gmap(data = co_data, shapefile = co_geo, id = "GEO_ID",
+ size = 70, border = "state", glyph = "icone")
+view(map)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Vizumap</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

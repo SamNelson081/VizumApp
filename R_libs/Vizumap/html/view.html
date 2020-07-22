@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: View a *Vizumap* object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for view {Vizumap}"><tr><td>view {Vizumap}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>View a <strong>Vizumap</strong> object</h2>
+
+<h3>Description</h3>
+
+<p>This function views maps, keys, palettes and animations created with
+<strong>Vizumap</strong>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+view(obj)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+<p>An object from <code><a href="build_bmap.html">build_bmap</a></code>, <code><a href="build_gmap.html">build_gmap</a></code>,
+<code><a href="build_pmap.html">build_pmap</a></code>, <code><a href="build_bkey.html">build_bkey</a></code>,
+<code><a href="build_gkey.html">build_gkey</a></code>, <code><a href="build_palette.html">build_palette</a></code>, or
+<code><a href="animate.html">animate</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For maps, keys and palettes, assigning the output from <code><a href="view.html">view</a></code> to a variable
+name saves the output as an object of class <code>"ggplot"</code>. Animations
+created with <code><a href="animate.html">animate</a></code> are viewed through an internet browser
+as html objects.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+gb &lt;- build_palette(name = "GreenBlue")
+view(gb)
+
+#ggplot object
+p &lt;- view(gb)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Vizumap</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

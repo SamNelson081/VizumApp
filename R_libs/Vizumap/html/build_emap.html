@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Build an exceedance probability colour map</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for build_emap {Vizumap}"><tr><td>build_emap {Vizumap}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build an exceedance probability colour map</h2>
+
+<h3>Description</h3>
+
+<p>This function builds a map that visualises the probability of exceeding some
+nominated threshold of concern.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+build_emap(
+  data,
+  pdflist = NULL,
+  shapefile = NULL,
+  id = NULL,
+  key_label,
+  palette = "YlOrRd",
+  size = NULL,
+  border = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame containing columns that house estimates of the mean,
+standard deviation (or margin of error) and exceedance probability (optional).
+A number of options are considered for calculating the probability of exceeding
+a threshold. See below for more information.</p>
+</td></tr>
+<tr valign="top"><td><code>pdflist</code></td>
+<td>
+<p>A list capturing the pdf function that defines the distribution function to use to
+calculate the probabilities of exeedence. By default this is NULL and assumes
+the exceedance probabilities have been calculated outside of the function and passed
+as a third column of the data dataframe.  Functions need to conform to the class
+of distribution functions available within R through the <code>stats</code> package.</p>
+</td></tr>
+<tr valign="top"><td><code>shapefile</code></td>
+<td>
+<p>A spatial polygons data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>Name of the common column shared by the objects passed to
+<code>data</code> and <code>shapefile</code>. The exceedance probability in the data frame
+will be matched to the geographical regions of the spatial polygons data
+frame through this column.</p>
+</td></tr>
+<tr valign="top"><td><code>key_label</code></td>
+<td>
+<p>Label of legend.</p>
+</td></tr>
+<tr valign="top"><td><code>palette</code></td>
+<td>
+<p>Name of colour palette. Colour palette names include
+<code>BlueYellow</code>, <code>CyanMagenta</code>, <code>BlueRed</code>, <code>GreenBlue</code> and <code>YellowRed</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>An integer between 1 and 20. Value controls the size of points
+when <code>shapefile = NULL</code>. If <code>size = NULL</code>, the points will remain
+the default size.
+</p>
+<p>@details An exceedance probability map can be produced using:
+(i) precalculated exceedance probabilities, which are provided as a third column
+to the input dataframe; or
+(ii) exceedance probabilities that are calculated within the function using one of
+the standard probability distributions (e.g. <code>pnorm</code>) provided in the <code>stats</code>
+package in R, or
+(iii) exceedance probabilities that are calculated through a user defined function that
+is passed to the package which conforms to a similar structure as the suite of
+<code>Distributions</code> available in R.  Examples are provided below.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Name of geographical borders to be added to the map. It must be
+one of <code><a href="../../maps/html/county.html">county</a></code>, <code><a href="../../maps/html/france.html">france</a></code>,
+<code><a href="../../maps/html/italy.html">italy</a></code>, <code><a href="../../maps/html/nz.html">nz</a></code>,
+<code><a href="../../maps/html/state.html">state</a></code>, <code><a href="../../maps/html/usa.html">usa</a></code> or
+<code><a href="../../maps/html/world.html">world</a></code> (see documentation for
+<code><a href="../../ggplot2/html/map_data.html">map_data</a></code> for more information). The borders will be
+refined to match latitute and longtidue coordinates provided in the data
+frame or spatial polygons data frame.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>shapefile</code> remains <code>NULL</code>, the function will produce a map of
+plotted points representing specific sites; in this case, the data frame must
+include latitude and longitude coordinates in columns <code>"long"</code> and
+<code>"lat"</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(us_data)
+data(us_geo)
+poverty &lt;- read.uv(data = us_data, estimate = "pov_rate", error = "pov_moe")
+
+# Exceedance probability map with a shapefile: Pr[X &gt; 30] (Exponential Distribution)
+#---- define probability distribution
+pd &lt;- quote({ pexp(q, rate, lower.tail = FALSE) })
+#---- define argument listing
+args &lt;- quote({ list(rate = 1/estimate) })
+#---- capture distribution and arguments in a single list
+pdflist &lt;- list(dist = pd, args = args, th = 30)
+map &lt;- build_emap(data = poverty, pdflist = pdflist, shapefile = us_geo, id = "GEO_ID",
+            border = "state", key_label = "Pr[X &gt; 30]")
+view(map) + ggplot2::ggtitle("Proper use of build_emap (appropriate distribution choice)")
+
+# Example where an inappropriate distributions is tried
+# Exceedance probability map with a shapefile: Pr[X&gt;30] (Normal Distribution)
+
+#---- define probability distribution
+pd &lt;- quote({ pnorm(q, mean, sd, lower.tail = FALSE) })
+#---- define argument listing
+args &lt;- quote({ list(mean = estimate, sd = error/1.645) })
+#---- capture distribution and arguments in a single list
+pdflist &lt;- list(dist = pd, args = args, th = 30)
+map &lt;- build_emap(data = poverty, pdflist = pdflist, shapefile = us_geo, id = "GEO_ID",
+            border = "state", key_label = "Pr[X &gt; 30]")
+view(map) + ggplot2::ggtitle("Misuse of build_emap (inappropriate distribution choice)")
+
+# Example where exceedance probabilities have been supplied (GBR Example)
+# Load Upper Burdekin Data
+data(UB)
+
+# Build Palette
+exc_pal &lt;- build_palette(name = "usr", colrange = list(colour = c("yellow", "red"),
+                                                       difC = c(1, 1)))
+                                                       view(exc_pal)
+# Create map and view it
+map &lt;- build_emap(data = exc_9596,  shapefile = UB_shp, id = "scID",
+            key_label = "Pr[TSS &gt; 837mg/L]")
+view(map)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Vizumap</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Build a palette</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for build_palette {Vizumap}"><tr><td>build_palette {Vizumap}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build a palette</h2>
+
+<h3>Description</h3>
+
+<p>This function prepares one of the four included colour palettes
+or builds a new colour palette.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+build_palette(
+  name,
+  colrange = list(colour = NULL, difC = NULL),
+  flipVertical = FALSE,
+  flipHorizontal = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Name of colour palette or <code>usr</code> for option to design a new
+palette. Colour palette names include
+<code>BlueYellow</code>, <code>CyanMagenta</code>, <code>BlueRed</code> and
+<code>GreenBlue</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>colrange</code></td>
+<td>
+<p>List with a character vector of length two and a numeric
+vector of length two.</p>
+</td></tr>
+<tr valign="top"><td><code>flipVertical</code></td>
+<td>
+<p>Whether the palette should be flipped vertically (ie. replace top portion with bottom portion)</p>
+</td></tr>
+<tr valign="top"><td><code>flipHorizontal</code></td>
+<td>
+<p>Whether the palette should be flipped horizontally (ie. replace left portion with right portion)</p>
+</td></tr>
+<tr valign="top"><td><code>colour</code></td>
+<td>
+<p>A character vector of two colour names from the colours() range or valid hexadecimal colors.</p>
+</td></tr>
+<tr valign="top"><td><code>difC</code></td>
+<td>
+<p>A numeric vector of two integers 1, 2, 3 or 4. Values
+control how much a colour changes in value across the grid. One corresponds
+with a small change in colour value, and four corresponds with a large
+change in colour value.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Note that <code>colrange</code> only needs to be specified if <code>name = "usr."</code>
+When choosing colours, it is best to avoid light colours or tints as these
+will lead to a colour palette lacking noticeable differences across the 3 x 3
+colour grid.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+#use one of four prepared colour palettes
+p &lt;- build_palette(name = "CyanMagenta")
+view(p)
+
+#design a new palette
+p &lt;- build_palette(name = "usr", colrange =
+ list(colour = c("darkblue", "chartreuse4"), difC = c(3, 4)))
+view(p)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Vizumap</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

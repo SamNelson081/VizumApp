@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Build a bivariate colour key</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for build_bkey {Vizumap}"><tr><td>build_bkey {Vizumap}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build a bivariate colour key</h2>
+
+<h3>Description</h3>
+
+<p>This function links data and a colour palette. Numerical bounds are added
+to the 3 x 3 colour grid.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+build_bkey(data, palette = "BlueYellow", terciles = FALSE, flipAxis = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>palette</code></td>
+<td>
+<p>Name of colour palette or character vector of hex colour codes
+created with <code><a href="build_palette.html">build_palette</a></code> function. Colour palette names include
+<code>BlueYellow</code>, <code>CyanMagenta</code>, <code>BlueRed</code> and
+<code>GreenBlue</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>terciles</code></td>
+<td>
+<p>A logical value. This provides the option to define numerical
+bounds for the colour key grid using terciles instead of equal intervals.</p>
+</td></tr>
+<tr valign="top"><td><code>flipAxis</code></td>
+<td>
+<p>A logical value. Whether to place the axis on the opposite sides or not.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A key for the bivariate map is not automatically generated with
+<code><a href="build_bmap.html">build_bmap</a></code> and must be made using <code><a href="build_bkey.html">build_bkey</a></code>. It is important
+that the arguments passed to <code><a href="build_bkey.html">build_bkey</a></code> match those passed to
+<code><a href="build_bmap.html">build_bmap</a></code>. The map and key can be viewed together using
+<code><a href="attach_key.html">attach_key</a></code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="attach_key.html">attach_key</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(us_data)
+data(us_geo)
+poverty &lt;- read.uv(data = us_data, estimate = "pov_rate", error = "pov_moe")
+
+#use a prepared palette and terciles
+key &lt;- build_bkey(data = poverty, terciles = TRUE)
+view(key)
+
+#use a created palette
+p &lt;- build_palette(name = "usr", colrange =
+ list(colour = c("darkblue", "chartreuse4"), difC = c(3, 4)))
+key &lt;- build_bkey(data = poverty, palette = p)
+view(key)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Vizumap</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

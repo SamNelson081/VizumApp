@@ -1,0 +1,18 @@
+UB_shp                  UB_shp
+animate                 Animate a pixel map
+attach_key              Attach a key
+build_bkey              Build a bivariate colour key
+build_bmap              Build a bivariate colour map
+build_emap              Build an exceedance probability colour map
+build_gkey              Build a glyph key
+build_gmap              Build a glyph map
+build_palette           Build a palette
+build_pmap              Build a pixel map
+exc_9596                exc_9596
+findNbounds             findNbounds
+pdist                   pdist
+pixelate                Pixelate polygons
+read.uv                 Format data
+us_data                 USA Poverty Data
+us_geo                  USA shapefile
+view                    View a *Vizumap* object

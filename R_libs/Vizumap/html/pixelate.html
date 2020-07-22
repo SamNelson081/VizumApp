@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Pixelate polygons</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for pixelate {Vizumap}"><tr><td>pixelate {Vizumap}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Pixelate polygons</h2>
+
+<h3>Description</h3>
+
+<p>This function divides a shapefile into pixels so it can be used to create a
+pixel map with <code><a href="build_pmap.html">build_pmap</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pixelate(shapefile = NULL, file = NULL, layer = NULL, pixelSize = 2, id = "id")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>shapefile</code></td>
+<td>
+<p>An object of class &quot;SpatialPolygons&quot; or
+&quot;SpatialPolygonsDataFrame&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A shapefile pathway.</p>
+</td></tr>
+<tr valign="top"><td><code>layer</code></td>
+<td>
+<p>Name of shapefile layer (see documentation for
+<code><a href="../../rgdal/html/readOGR.html">readOGR</a></code> for more information).</p>
+</td></tr>
+<tr valign="top"><td><code>pixelSize</code></td>
+<td>
+<p>An integer 1, 2 or 3. One corresponds to the smallest pixel
+size, and three corresponds to the largest.</p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>A name which will be given to the new ID column. This ID corresponds to the slot ID in
+the shapefile.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function can take several minutes to run depending on the size of the shapefile.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(us_geo)
+ca_geo &lt;- subset(us_geo, us_geo@data$STATE == "06")
+pix &lt;- pixelate(ca_geo, id = "region")
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Vizumap</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

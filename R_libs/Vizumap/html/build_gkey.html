@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Build a glyph key</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for build_gkey {Vizumap}"><tr><td>build_gkey {Vizumap}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build a glyph key</h2>
+
+<h3>Description</h3>
+
+<p>This function creates a key of rotated glyphs for a map produced with <code><a href="build_gmap.html">build_gmap</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+build_gkey(data, glyph = "icone")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>glyph</code></td>
+<td>
+<p>Name of glyph shape. Options include <code>icone</code> and <code>semi</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A key for the glyph map is not automatically generated with
+<code><a href="build_gmap.html">build_gmap</a></code> and must be made using <code><a href="build_gkey.html">build_gkey</a></code>. It is important
+that the arguments passed to <code><a href="build_gkey.html">build_gkey</a></code> match those passed to
+<code><a href="build_gmap.html">build_gmap</a></code>. The map and key can be viewed together using
+<code><a href="attach_key.html">attach_key</a></code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="attach_key.html">attach_key</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(us_data)
+data(us_geo)
+co_geo &lt;- subset(us_geo, us_geo@data$STATE == "08")
+us_data$GEO.id2 &lt;- as.numeric(us_data$GEO.id2)
+co_data &lt;- subset(us_data, us_data$GEO.id2 &gt; 8000 &amp; us_data$GEO.id2 &lt; 9000)
+co_data &lt;- read.uv(data = co_data, estimate = "pov_rate", error = "pov_moe")
+
+#build a glyph key
+key &lt;- build_gkey(data = co_data, glyph = "icone")
+view(key)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Vizumap</em> version 1.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>
