@@ -4,6 +4,8 @@
 
 # # # # # # # # # # # # # # # # # # #
 
+.libPaths(.libPaths(), "./R_libs")
+
 #Shiny Libraries
 library("shiny")
 library("shinyWidgets")
