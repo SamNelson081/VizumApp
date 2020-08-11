@@ -2,17 +2,13 @@ Package: Vizumap
 Type: Package
 Title: Visualizing Uncertainty in spatial data
 Version: 1.2.0
-Author: Petra Kuhnert, Lydia Lucchesi and Sam Nelson
-Maintainer: Maintainer: Petra Kuhnert <Petra.Kuhnert@data61.csiro.aut>
+Author: Lydia Lucchesi and Petra Kuhnert
+Maintainer: Maintainer: Lydia <Lydia.Lucchesi@anu.edu.au>
 Description: 
     Vizumap provides visualization approaches for spatial data.
 Encoding: UTF-8
-Date: 2020-02-17
-Authors@R: c(
-    person("Petra", "Kuhnert", email = "Petra.Kuhnert@data61.csiro.au", role = c("aut", "cre")),
-    person("Lydia", "Lucchesi", email = "Lydia.Lucchesi@anu.edu.au", role = "aut"),
-    person("Sam", "Nelson", email = "Sam.Nelson@data61.csiro.au", role = "aut")
-    )
+Date: 2020-06-04
+Authors@R: c(person("Lydia", "Lucchesi", email = "Lydia.Lucchesi@anu.edu.au", role = "aut"), person("Petra", "Kuhnert", email = "Petra.Kuhnert@data61.csiro.au", role = c("aut", "cre")))
 Depends: R (>= 3.5.0)
 Imports: dplyr, ggplot2, grDevices, gridExtra, plyr, rgdal, rgeos,
         ggmap, broom, animation, reshape2, geoaxe, maptools, sp,
@@ -27,12 +23,12 @@ RemoteType: github
 RemoteHost: api.github.com
 RemoteRepo: Vizumap
 RemoteUsername: lydialucchesi
-RemoteRef: master
-RemoteSha: 635d22775e966511eab471c6d089f87568ccdf92
+RemoteRef: HEAD
+RemoteSha: 75628e28b79c52355b574e699688f53a0d9f284d
 GithubRepo: Vizumap
 GithubUsername: lydialucchesi
-GithubRef: master
-GithubSHA1: 635d22775e966511eab471c6d089f87568ccdf92
+GithubRef: HEAD
+GithubSHA1: 75628e28b79c52355b574e699688f53a0d9f284d
 NeedsCompilation: no
-Packaged: 2020-04-23 00:36:41 UTC; User
-Built: R 3.6.3; ; 2020-04-23 00:36:42 UTC; windows
+Packaged: 2020-08-11 06:36:30 UTC; User
+Built: R 4.0.2; ; 2020-08-11 06:36:31 UTC; windows

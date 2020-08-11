@@ -8,13 +8,13 @@ build_gmap	build_gmap
 build_palette	build_palette
 build_pmap	build_pmap
 calcbin.r	Vizumap-Internal
-exc_9596	exc_9596
 findNbounds	findNbounds
 findNbounds.r	Vizumap-Internal
 pdist	pdist
 pixelate	pixelate
 read.uv	read.uv
 UB_shp	UB_shp
+UB_tss	UB_tss
 us_data	us_data
 us_geo	us_geo
 view	view

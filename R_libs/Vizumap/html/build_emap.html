@@ -147,7 +147,7 @@ exc_pal &lt;- build_palette(name = "usr", colrange = list(colour = c("yellow", "
                                                        difC = c(1, 1)))
                                                        view(exc_pal)
 # Create map and view it
-map &lt;- build_emap(data = exc_9596,  shapefile = UB_shp, id = "scID",
+map &lt;- build_emap(data = UB_tss,  shapefile = UB_shp, id = "scID",
             key_label = "Pr[TSS &gt; 837mg/L]")
 view(map)
 

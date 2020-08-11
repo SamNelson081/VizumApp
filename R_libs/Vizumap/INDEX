@@ -1,4 +1,5 @@
 UB_shp                  UB_shp
+UB_tss                  UB_tss
 animate                 Animate a pixel map
 attach_key              Attach a key
 build_bkey              Build a bivariate colour key
@@ -8,7 +9,6 @@ build_gkey              Build a glyph key
 build_gmap              Build a glyph map
 build_palette           Build a palette
 build_pmap              Build a pixel map
-exc_9596                exc_9596
 findNbounds             findNbounds
 pdist                   pdist
 pixelate                Pixelate polygons
