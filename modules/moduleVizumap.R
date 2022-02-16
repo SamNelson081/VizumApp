@@ -40,12 +40,6 @@ VizumapUI <- function(id) {
           p("Use Example data from the US or the Great Barrier Reef to run an example"),
           selectizeInput(ns("exampleDataset"), label="Example Dataset", choices=c("Upload Your Own Data", "US", "GBR")),
           conditionalPanel("input.exampleDataset == 'Upload Your Own Data'", ns = ns,
-              accordion(
-                 accordionItem(
-                   id = 2, 
-                   title = "Upload",
-                   color = "info",
-                   collapsed = TRUE,
                    hr(),
                    fileInput(ns("shapefile"), "Upload a Shapefile", multiple=TRUE, accept = c(".shp", ".dbf", ".sbn", ".sbx", ".shx", ".prj")),
                    p("Note: Shapefile uploads require uploading .shp, .shx, .prj and .dbf files for a given shapefile"),
@@ -72,22 +66,20 @@ VizumapUI <- function(id) {
                                        "Single Quote" = "'"),
                            selected = '"'),
               
-                    uiOutput(ns("colSelector"))
-                 )
-          )
+                    uiOutput(ns("colSelector")),
           #fileInput(ns("shp"), label="Upload Shapefile and Datafile", multiple = T, accept = c("csv", "shp", "shx", "prj", "dbf")),
           #prettyRadioButtons(ns("map_type"), label="Map Type", choices=c("Bivariate", "Pixel", "Glyph"), selected = "Bivariate"),
           #actionButton(ns("run_map"), "Go"),
-          #hr(),
+          hr()
           ),
           selectizeInput(ns("plotType"), label="Plot Type", choices=c("Bivariate", "Glyph", "Pixel", "Excedance")),
           conditionalPanel("input.plotType == 'Excedance' && input.exampleDataset == 'Upload Your Own Data'", ns=ns,
-            checkboxInput(ns("useExcDataset"), "Use a dataset for excedance?"),
-            conditionalPanel("input.useExcDataset == false", ns=ns,
-              selectizeInput(ns("distrType"), "Choose a distribution type (Make sure you choose the right type for your data!)", choices=c("Random" = "r","Density" = "d", "Cumulative" = "p", "Quantile" = "q")),
-              textInput(ns("excFunc"), "Insert Excedance Probability Function")
-            ),
-            conditionalPanel("input.useExcDataset == true", ns=ns,
+            #checkboxInput(ns("useExcDataset"), "Use a dataset for excedance?"),
+            #conditionalPanel("input.useExcDataset == false", ns=ns,
+            #  selectizeInput(ns("distrType"), "Choose a distribution type (Make sure you choose the right type for your data!)", choices=c("Random" = "r","Density" = "d", "Cumulative" = "p", "Quantile" = "q")),
+            #  textInput(ns("excFunc"), "Insert Excedance Probability Function")
+            #),
+            #conditionalPanel("input.useExcDataset == true", ns=ns,
               checkboxInput(ns("useCurrent"), "Use a column from the current dataset?"),
               conditionalPanel("input.useCurrent == true", ns=ns, 
                 uiOutput(ns("excColCurrent"))           
@@ -96,8 +88,8 @@ VizumapUI <- function(id) {
                 fileInput(ns("excDataset"), "Upload a Dataset", accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv"))
               ),
               uiOutput(ns("excCol"))
-              )
-            ),
+              ),
+            #),
           actionButton(ns("example"), label = "Run"),
           hr(),
           conditionalPanel("input.plotType == 'Bivariate'", ns = ns,
@@ -208,7 +200,7 @@ VizumapServer <- function(input, output, session) {
       #Get the data
       incProgress(1/4, detail = paste("Building map and key..."))
       
-      m <<- build_gmap(data = data, shapefile = shp, id = id, border = "state", palette = "Purples")
+      m <<- build_gmap(data = data, geoData = shp, id = id, border = "state", palette = "Purples")
       
       data <- data[order(data[id]),]
       return(list(type = "glyph", dataset = data, polygons = shp, centroids = centroids, map = m, palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error))
@@ -245,7 +237,6 @@ VizumapServer <- function(input, output, session) {
         
         shp <- UB_shp # readOGR(dsn="./data/GBRShp", layer="Be10_sitesMod")
         
-        View(shp)
         
         # Extract the 2005/06 financial year mean concentration estimates, sd, lower and upper CIs
         amc_0506 <- data.frame(m = burd_data$TSS_m$`2005/2006`, sd = burd_data$TSS_sd$`2005/2006`,
@@ -288,7 +279,7 @@ VizumapServer <- function(input, output, session) {
    
   
       #Bivariate map
-      m <- build_bmap(data = data, shapefile = shp, id = id, border = "state", terciles = TRUE, palette = isolate(palette()), flipAxis = isolate(input$axis))
+      m <- build_bmap(data = data, geoData = shp, id = id, border = "state", terciles = TRUE, palette = isolate(palette()), flipAxis = isolate(input$axis))
       m$output_data$hex_code <- as.character(m$output_data$hex_code)
       
       #Key
@@ -401,8 +392,7 @@ VizumapServer <- function(input, output, session) {
      
       
       data <- data[order(data[id]),]
-    
-    return(list(type = "pixel", dataset = data, polygons = as.geojson(shp), map = m, palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error))
+    return(list(type = "pixel", dataset = data, polygons = as.geojson(shp), palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error))#, map = m, palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error))
   }
   
   buildEMap <- function(datatype) {
@@ -461,14 +451,14 @@ VizumapServer <- function(input, output, session) {
       exc_name <- "TSS_exc1"
       
     } else {
+      
+      
+      
       shp <- shapefile()
       
       data <- userDataset()
       
       data$OBJECTID <- as.integer(data$OBJECTID)
-      
-      View(shp)
-      View(data)
       
       id <- as.character(input$idMatch)
       
@@ -486,23 +476,35 @@ VizumapServer <- function(input, output, session) {
     
     
     #Get the data
+    # conditionalPanel("input.plotType == 'Excedance' && input.exampleDataset == 'Upload Your Own Data'", ns=ns,
+    #                  #checkboxInput(ns("useExcDataset"), "Use a dataset for excedance?"),
+    #                  #conditionalPanel("input.useExcDataset == false", ns=ns,
+    #                  #  selectizeInput(ns("distrType"), "Choose a distribution type (Make sure you choose the right type for your data!)", choices=c("Random" = "r","Density" = "d", "Cumulative" = "p", "Quantile" = "q")),
+    #                  #  textInput(ns("excFunc"), "Insert Excedance Probability Function")
+    #                  #),
+    #                  #conditionalPanel("input.useExcDataset == true", ns=ns,
+    #                  checkboxInput(ns("useCurrent"), "Use a column from the current dataset?"),
+    #                  conditionalPanel("input.useCurrent == true", ns=ns, 
+    #                                   uiOutput(ns("excColCurrent"))           
+    #                  ),             
+    #                  conditionalPanel("input.useCurrent == false", ns=ns, 
+    #                                   fileInput(ns("excDataset"), "Upload a Dataset", accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv"))
+    #                  ),
+    #                  uiOutput(ns("excCol"))
+    # ),
+    #),
     
-    
-    if(input$useExcDataset) {
-      
+    if(input$useCurrent) {
+      exc_data <- data[input$excColCurrent]
+      name <- names(exc_data)[1]
     } else {
-      distr <- input$distrType
-      
       
     }
     
-    #Bivariate map
-    #m <- build_bmap(data = data, shapefile = shp, id = id, border = "state", terciles = TRUE, palette = isolate(palette()), flipAxis = isolate(input$axis))
-    #m$output_data$hex_code <- as.character(m$output_data$hex_code)
     data <- data[order(data[id]),]
     exc_data <- exc_data[order(exc_data[id]),]
     
-    return(list(type = "excedance", dataset = data, polygons = as.geojson(shp), map = m, exc = exc_data, palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error, exc_name = exc_name))
+    return(list(type = "excedance", dataset = data, polygons = as.geojson(shp), exc = exc_data, palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error, exc_name = exc_name))# map = m, exc = exc_data, palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error, exc_name = exc_name))
   }
   
   makeTransparent <- function(p) {
@@ -684,7 +686,7 @@ VizumapServer <- function(input, output, session) {
     }
     
     #Translate to Lat-Long object
-    return(shp)
+    return(reader)
     
   })
   
@@ -753,11 +755,11 @@ VizumapServer <- function(input, output, session) {
       req(input$shapefile)
       req(input$csvDataset)
       
-      return(selectizeInput(session$ns("excCol-current"), "Excedance Column", unique(c(names(shapefile()@data), names(userDataset())))))
+      return(selectizeInput(session$ns("excColCurrent"), "Excedance Column", unique(c(names(shapefile()@data), names(userDataset())))))
     } else {
       
       req(input$excDataset)
-      return(selectizeInput(session$ns("excCol-current"), "Excedance Column", names(excDataset())))
+      return(selectizeInput(session$ns("excColCurrent"), "Excedance Column", names(excDataset())))
     }
    
   })

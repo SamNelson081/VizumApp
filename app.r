@@ -4,12 +4,13 @@
 
 # # # # # # # # # # # # # # # # # # #
 
-.libPaths(.libPaths(), "./R_libs")
+# .libPaths(.libPaths(), "./R_libs")
 
 #Shiny Libraries
 library("shiny")
 library("shinyWidgets")
 library("shinycssloaders")
+load("./UB_JOSS.rda")
 
 
 #Source dependencies
