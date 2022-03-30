@@ -1,0 +1,39 @@
+Package: VizumapApp
+Type: Package
+Title: Produce spatial predictions and uncertainties using the Vizumap R package
+Version: 1.0.0
+Author: Sam Nelson
+Maintainer: Sam Nelson <Sam.Nelson@data61.csiro.au>
+Description: A shiny app that allows a user to create a Vizumap map based on Lydia 
+  Lucchesi's Vizumap R package.
+Encoding: UTF-8
+Date: 2022-03-03
+Authors@R: c(
+             person("Sam", "Nelson", email = "Sam.Nelson@data61.csiro.au", role = c("aut", "cre")), 
+             person("Lydia", "Lucchesi", email = "Lydia.Lucchesi@anu.edu.au", role = c("aut")), 
+             person("Petra", "Kuhnert", email = "Petra.Kuhnert@data61.csiro.au", role = c("aut")) 
+           )
+Depends:
+    R (>= 3.5.0)
+Imports:
+    colourpicker,
+    cowplot,
+    DescTools,
+    geojson,
+    htmltools,
+    htmlwidgets,
+    shiny,
+    leaflet,
+    ggplot2,
+    rgdal,
+    rgeos,
+    scales,
+    shinyalert,
+    shinydashboardPlus,
+    shinyjs,
+    sp,
+    Vizumap
+License: GPL-3
+LazyLoad: TRUE
+LazyData: TRUE
+RoxygenNote: 7.1.2
