@@ -48,6 +48,11 @@ Providing an interactive experience of the Vizumap R Package, DOI: TBA
 
 ## References
 
+Lucchesi, L.R., Kuhnert, P.M. and Wikle, C.K. (2021) [Vizumap: an R
+package for visualising uncertainty in spatial
+data](https://doi.org/10.21105/joss.02409), Journal of Open Source
+Software, <https://doi.org/10.21105/joss.02409>.
+
 Kuhnert, P.M., Pagendam, D.E., Bartley, R., Gladish, D.W., Lewis, S.E.
 and Bainbridge, Z.T. (2018) [Making management decisions in face of
 uncertainty: a case study using the Burdekin catchment in the Great
@@ -59,8 +64,3 @@ Lucchesi, L.R. and Wikle C.K. (2017) [Visualizing uncertainty in areal
 data with bivariate choropleth maps, map pixelation and glyph
 rotation](http://faculty.missouri.edu/~wiklec/LucchesiWikle2017Stat),
 Stat, <https://doi.org/10.1002/sta4.150>.
-
-Lucchesi, L.R., Kuhnert, P.M. and Wikle, C.K. (2021) [Vizumap: an R
-package for visualising uncertainty in spatial
-data](https://doi.org/10.21105/joss.02409), Journal of Open Source
-Software, <https://doi.org/10.21105/joss.02409>.
