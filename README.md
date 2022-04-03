@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# VizumAPP
+# VizumApp
 
 ## A Shiny App for visualizing uncertainty in spatial data using the Vizumap R package.
 
@@ -30,16 +30,16 @@ A link to the shiny instance appears [here](https://)
 
 ## Contribute
 
-To contribute to `VizumAPP`, please follow these
+To contribute to `VizumApp`, please follow these
 [guidelines](CONTRIBUTING.md).
 
-Please note that the `VizumAPP` project is released with a [Contributor
+Please note that the `VizumApp` project is released with a [Contributor
 Code of Conduct](CONDUCT.md). By contributing to this project, you agree
 to abide by its terms.
 
 ## License
 
-`Vizumap-App` version 1.0.0 is licensed under [GPLv3](LICENSE.md).
+`VizumApp` version 1.0.0 is licensed under [GPLv3](LICENSE.md).
 
 ## Citation
 
