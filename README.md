@@ -10,7 +10,7 @@
 You can install a development version of the `Vizumap` package using the
 command below.
 
-    remotes::install_github(repo = "SamNelson081/Vizumap-App", force = TRUE)
+    remotes::install_github(repo = "SamNelson081/Vizumap-App")
 
 ## Authors
 
