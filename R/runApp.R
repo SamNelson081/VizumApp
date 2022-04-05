@@ -5,7 +5,7 @@
 #'@export
 runShiny <- function() {
   library(shiny)
-  runApp(system.file("shinyApp", package="VizumapApp"))
+  runApp(system.file("shinyApp", package="VizumApp"))
 }
 
 

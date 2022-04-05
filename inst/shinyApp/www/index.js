@@ -72,7 +72,10 @@ Shiny.addCustomMessageHandler("bivariate", (data) => {
 
 
 Shiny.addCustomMessageHandler("glyph", (data) => {
-
+  
+  
+    console.log(data)
+    
     var map = $('#Vizumap-map').data('leaflet-map');
         
     map.removeLayer(features)
@@ -83,7 +86,8 @@ Shiny.addCustomMessageHandler("glyph", (data) => {
   
     let gradient = colourScale(data.palette[0], data.palette[1], data.dataset[data.estimate].length);
     let estimate = scale(data.dataset[data.estimate])  
-
+    let names = !!data.dataset["GEO.display.label"] ? data.dataset["GEO.display.label"] : 0
+    
     data.centroids.coords.forEach((coord, index) => {
        let marker = L.marker(
             [coord[1], coord[0]], 
@@ -99,11 +103,15 @@ Shiny.addCustomMessageHandler("glyph", (data) => {
                 rotationAngle: rotation[index]
             }
         )
+      
         
         marker.bindPopup(`
+            ${names !== 0 ? data.dataset["GEO.display.label"][index] + "</br>" : ""}
             <strong>Estimate: </strong> ${data.dataset[data.estimate][index]} 
             </br>
-            <strong>Margin of Error: </strong> ${data.dataset[data.error][index]}
+            <strong>Margin of Error: </strong> ${data.dataset[data.error][index]
+              
+            }
         `);
 
         features.addLayer(marker)        

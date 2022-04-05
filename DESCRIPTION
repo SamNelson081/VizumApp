@@ -1,4 +1,4 @@
-Package: VizumapApp
+Package: VizumApp
 Type: Package
 Title: Produce spatial predictions and uncertainties using the Vizumap R package
 Version: 1.0.0
@@ -14,7 +14,8 @@ Authors@R: c(
              person("Petra", "Kuhnert", email = "Petra.Kuhnert@data61.csiro.au", role = c("aut")) 
            )
 Depends:
-    R (>= 3.5.0)
+    R (>= 3.5.0),
+    leaflet
 Imports:
     colourpicker,
     cowplot,
@@ -23,7 +24,6 @@ Imports:
     htmltools,
     htmlwidgets,
     shiny,
-    leaflet,
     ggplot2,
     rgdal,
     rgeos,

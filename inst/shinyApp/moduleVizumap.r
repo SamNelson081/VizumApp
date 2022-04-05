@@ -526,9 +526,10 @@ VizumapServer <- function(input, output, session) {
   output$bkey <- renderPlot({
     #Render as GGPlot
     if(isolate(input$plotType) == "Bivariate") {
-      key <- view(build_bkey(shpData()$dataset, terciles = TRUE, palette = isolate(palette()), flipAxis = isolate(input$axis)))
+      key <- view(build_bkey(shpData()$dataset, terciles = TRUE, palette = isolate(palette()), flipAxis = isolate(input$axis), transparent=TRUE))
+      view(key)
     } else if(input$plotType == "Glyph"){
-      key <- view(build_gkey(shpData()$dataset, glyph = "icone"))
+      key <- view(build_gkey(shpData()$dataset, glyph = "icone", transparent = TRUE))
     } else if(input$plotType == "Pixel" || input$plotType == "Excedance"){
       key <- c()
     }
@@ -558,7 +559,6 @@ VizumapServer <- function(input, output, session) {
     session$sendCustomMessage("bivariate", shpData())
         
       
-    View(shpData())
       
     bbox <- as.numeric(shpData()$m$bbox)
     leafletProxy("map") %>%
@@ -579,8 +579,8 @@ VizumapServer <- function(input, output, session) {
         clearShapes() %>% 
         clearMarkers()
       
-
-      session$sendCustomMessage("glyph", shpData())
+     
+      session$sendCustomMessage("glyph", list(data=shpData(), dataset=input$exampleDataset))
       
     } else if(shpData()$type == "pixel") {
       
@@ -614,7 +614,7 @@ VizumapServer <- function(input, output, session) {
   
   output$palettePlot <- renderPlot({
     if(input$plotType == "Bivariate") {
-      makeTransparent(view(palette()))
+      view(palette())
     }
     else {
       ggdraw(cowplot::get_legend(
