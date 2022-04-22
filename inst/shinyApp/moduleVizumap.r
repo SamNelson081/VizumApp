@@ -134,7 +134,7 @@ VizumapServer <- function(input, output, session) {
         
         #Relative path to my machine
  #       shp <- readOGR(dsn = "./data/USshp", layer = "05000")
-        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumapApp"),
+        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
                        layer = "05000")
         
         estimate = "pov_rate"
@@ -146,9 +146,9 @@ VizumapServer <- function(input, output, session) {
         
       } else if(datatype == 'GBR') {
         
-        load(system.file("shinyApp/data", "burd_data.rda", package = "VizumapApp"))
-        load(system.file("shinyApp/data", "burd_geo.rda", package = "VizumapApp"))
-        load(system.file("shinyApp/data", "UB.rda", package = "VizumapApp"))
+        load(system.file("shinyApp/data", "burd_data.rda", package = "VizumApp"))
+        load(system.file("shinyApp/data", "burd_geo.rda", package = "VizumApp"))
+        load(system.file("shinyApp/data", "UB.rda", package = "VizumApp"))
         
         shp <- UB_shp
         
@@ -211,7 +211,7 @@ VizumapServer <- function(input, output, session) {
         data(us_data)
   
         #Relative path to my machine
-        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumapApp"),
+        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
                        layer = "05000")
         
         estimate = "pov_rate"
@@ -224,9 +224,9 @@ VizumapServer <- function(input, output, session) {
         
       } else if(datatype == 'GBR') {
 
-        load(system.file("shinyApp/data", "burd_data.rda", package = "VizumapApp"))
-        load(system.file("shinyApp/data", "burd_geo.rda", package = "VizumapApp"))
-        load(system.file("shinyApp/data", "UB.rda", package = "VizumapApp"))
+        load(system.file("shinyApp/data", "burd_data.rda", package = "VizumApp"))
+        load(system.file("shinyApp/data", "burd_geo.rda", package = "VizumApp"))
+        load(system.file("shinyApp/data", "UB.rda", package = "VizumApp"))
         
         
         shp <- UB_shp 
@@ -330,7 +330,7 @@ VizumapServer <- function(input, output, session) {
         data(us_data)
         
         #Relative path to my machine
-        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumapApp"),
+        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
                        layer = "05000")
         
         estimate = "pov_rate"
@@ -343,9 +343,9 @@ VizumapServer <- function(input, output, session) {
       } else if(datatype == 'GBR')  {
         
         
-        load(system.file("shinyApp/data", "burd_data.rda", package = "VizumapApp"))
-        load(system.file("shinyApp/data", "burd_geo.rda", package = "VizumapApp"))
-        load(system.file("shinyApp/data", "UB.rda", package = "VizumapApp"))
+        load(system.file("shinyApp/data", "burd_data.rda", package = "VizumApp"))
+        load(system.file("shinyApp/data", "burd_geo.rda", package = "VizumApp"))
+        load(system.file("shinyApp/data", "UB.rda", package = "VizumApp"))
         
         shp <- UB_shp
         
@@ -367,9 +367,6 @@ VizumapServer <- function(input, output, session) {
         data <- userDataset()
         
         data$OBJECTID <- as.integer(data$OBJECTID)
-        
-        View(shp)
-        View(data)
         
         id <- as.character(input$idMatch)
         
@@ -399,7 +396,7 @@ VizumapServer <- function(input, output, session) {
       data(us_data)
       
       #Relative path to my machine
-      shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumapApp"),
+      shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
                      layer = "05000")
       
       estimate = "pov_rate"
@@ -424,9 +421,9 @@ VizumapServer <- function(input, output, session) {
       
     } else if(datatype == 'GBR') {
       
-      load(system.file("shinyApp/data", "burd_data.rda", package = "VizumapApp"))
-      load(system.file("shinyApp/data", "burd_geo.rda", package = "VizumapApp"))
-      load(system.file("shinyApp/data", "UB_JOSS.rda", package = "VizumapApp"))
+      load(system.file("shinyApp/data", "burd_data.rda", package = "VizumApp"))
+      load(system.file("shinyApp/data", "burd_geo.rda", package = "VizumApp"))
+      load(system.file("shinyApp/data", "UB_JOSS.rda", package = "VizumApp"))
 
       shp <- UB_shp
     
@@ -526,10 +523,9 @@ VizumapServer <- function(input, output, session) {
   output$bkey <- renderPlot({
     #Render as GGPlot
     if(isolate(input$plotType) == "Bivariate") {
-      key <- view(build_bkey(shpData()$dataset, terciles = TRUE, palette = isolate(palette()), flipAxis = isolate(input$axis), transparent=TRUE))
-      view(key)
+      key <- Vizumap::view(build_bkey(shpData()$dataset, terciles = TRUE, palette = isolate(palette()), flipAxis = isolate(input$axis), transparent=TRUE))
     } else if(input$plotType == "Glyph"){
-      key <- view(build_gkey(shpData()$dataset, glyph = "icone", transparent = TRUE))
+      key <- Vizumap::view(build_gkey(shpData()$dataset, glyph = "icone", transparent = TRUE))
     } else if(input$plotType == "Pixel" || input$plotType == "Excedance"){
       key <- c()
     }
@@ -614,7 +610,7 @@ VizumapServer <- function(input, output, session) {
   
   output$palettePlot <- renderPlot({
     if(input$plotType == "Bivariate") {
-      view(palette())
+      Vizumap::view(palette())
     }
     else {
       ggdraw(cowplot::get_legend(
