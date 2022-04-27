@@ -437,7 +437,7 @@ VizumapServer <- function(input, output, session) {
       error = "sd"
       # Reorder the columns to what Vizumap wants (estimate, error, ...)
       amc05 <- read.uv(data = amc_0506, estimate = estimate, error = error)
-      amc05$scID <- "sortid" # ID that matches the sub-catchment boundaries in the shape file
+      amc05$scID <- sortid # ID that matches the sub-catchment boundaries in the shape file
       
       data <- amc05
       id="scID"
