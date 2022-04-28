@@ -25,12 +25,12 @@ Imports:
     htmlwidgets,
     shiny,
     ggplot2,
+    rgdal,
     rgeos,
     scales,
     shinyalert,
     shinydashboardPlus,
     shinyjs,
-    sf,
     sp,
     Vizumap
 License: GPL-3

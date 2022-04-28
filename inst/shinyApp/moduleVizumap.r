@@ -1,7 +1,6 @@
 library("Vizumap")
 library("leaflet")
-#library("rgdal")
-library("sf")
+library("rgdal")
 library("rgeos")
 library("sp")
 library("ggplot2")
@@ -134,16 +133,16 @@ VizumapServer <- function(input, output, session) {
         data(us_data)
         
         #Relative path to my machine
-       shp <- read_sf(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
-                      layer = "05000")
-       shp <- as_Spatial(shp)
-       
+ #       shp <- readOGR(dsn = "./data/USshp", layer = "05000")
+        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
+                       layer = "05000")
+        
         estimate = "pov_rate"
         error = "pov_moe"
         
         data <- read.uv(data = us_data, estimate = estimate, error = error)
         
-        id <- "GEO_ID"
+        id="GEO_ID"
         
       } else if(datatype == 'GBR') {
         
@@ -186,7 +185,6 @@ VizumapServer <- function(input, output, session) {
       }
       
       shp <- spTransform(shp,"+init=epsg:4326")
-
       centroids <- gCentroid(shp, byid=TRUE)
       
     
@@ -211,11 +209,10 @@ VizumapServer <- function(input, output, session) {
         
         #Load data
         data(us_data)
-      
+  
         #Relative path to my machine
-        shp <- read_sf(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
+        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
                        layer = "05000")
-        shp <- as_Spatial(shp)
         
         estimate = "pov_rate"
         error = "pov_moe"
@@ -249,7 +246,6 @@ VizumapServer <- function(input, output, session) {
         data <- amc05
         id="scID"
       } else {
-        
         shp <- shapefile()
         
         data <- userDataset()
@@ -268,8 +264,9 @@ VizumapServer <- function(input, output, session) {
         error <- "Error"
         name <- input$nameInput
       }
+      
       shp <- spTransform(shp, "+init=epsg:4326")
-
+      
       #Get the data
       incProgress(1/4, detail = paste("Building map and key..."))
       
@@ -333,9 +330,8 @@ VizumapServer <- function(input, output, session) {
         data(us_data)
         
         #Relative path to my machine
-        shp <- read_sf(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
+        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
                        layer = "05000")
-        shp <- as_Spatial(shp)
         
         estimate = "pov_rate"
         error = "pov_moe"
@@ -383,8 +379,11 @@ VizumapServer <- function(input, output, session) {
       }
       
       shp <- spTransform(shp,"+init=epsg:4326")
-
-      # Get the data
+      
+      
+      #Get the data
+     
+      
       data <- data[order(data[id]),]
     return(list(type = "pixel", dataset = data, polygons = as.geojson(shp), palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error))#, map = m, palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error))
   }
@@ -396,11 +395,10 @@ VizumapServer <- function(input, output, session) {
       #Load data
       data(us_data)
       
-      # Relative path to my machine
-      shp <- read_sf(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
+      #Relative path to my machine
+      shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
                      layer = "05000")
       
-      shp <- as_Spatial(shp)
       estimate = "pov_rate"
       error = "pov_moe"
       
@@ -469,7 +467,8 @@ VizumapServer <- function(input, output, session) {
     }
     
     shp <- spTransform(shp,"+init=epsg:4326")
-
+    
+    
     if(input$useCurrent) {
       exc_data <- data[input$excColCurrent]
       name <- names(exc_data)[1]
@@ -637,13 +636,9 @@ VizumapServer <- function(input, output, session) {
     
     #Read in Shapefile
     reader <- tryCatch({
-#      readOGR(paste(tempdirname,
-#                    shpdf$name[grep(pattern = "*.shp$", shpdf$name)],
-#                    sep = "/"))
-    reader <- read_sf(paste(tempdirname,
-                  shpdf$name[grep(pattern = "*.shp$", shpdf$name)],
-                                    sep = "/"))
-      
+      readOGR(paste(tempdirname,
+                    shpdf$name[grep(pattern = "*.shp$", shpdf$name)],
+                    sep = "/"))
     }, error = function(e) {
       shinyalert("Whoops!", "We couldn't read in that shapefile! Make sure you are uploading the 
                   .shp, .shx, .prj and .dbf files all at once so we can read it! 
