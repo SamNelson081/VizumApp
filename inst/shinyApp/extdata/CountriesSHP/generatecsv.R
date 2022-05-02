@@ -27,6 +27,6 @@ pop <- as.data.frame(random_pop_err())
 
 pop$OBJECTID <- c(1:251)
 
-colnames(pop) <- c("Population", "Error", "OBJECTID")
+colnames(pop) <- c("Estimate", "Error", "OBJECTID")
 
 data.frame()

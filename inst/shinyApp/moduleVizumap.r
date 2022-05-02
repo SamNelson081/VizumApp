@@ -179,7 +179,7 @@ VizumapServer <- function(input, output, session) {
         
         shp@data$OBJECTID <- as.integer(shp@data[,id]) 
         
-        estimate <- "Population"
+        estimate <- "Estimate"
         error <- "Error"
         name <- input$nameInput
       }
@@ -241,7 +241,7 @@ VizumapServer <- function(input, output, session) {
         name <- "SUBBASIN"
         # Reorder the columns to what Vizumap wants (estimate, error, ...)
         amc05 <- read.uv(data = amc_0506, estimate = estimate, error = error)
-        amc05$scID <- sortid # ID that matches the sub-catchment boundaries in the shape file
+        amc05$scID <- "sortid" # ID that matches the sub-catchment boundaries in the shape file
         
         data <- amc05
         id="scID"
@@ -260,7 +260,7 @@ VizumapServer <- function(input, output, session) {
         
         shp@data$OBJECTID <- as.integer(shp@data[,id]) 
           
-        estimate <- "Population"
+        estimate <- "Estimate"
         error <- "Error"
         name <- input$nameInput
       }
@@ -357,7 +357,7 @@ VizumapServer <- function(input, output, session) {
         error = "sd"
         # Reorder the columns to what Vizumap wants (estimate, error, ...)
         amc05 <- read.uv(data = amc_0506, estimate = estimate, error = error)
-        amc05$scID <- sortid # ID that matches the sub-catchment boundaries in the shape file
+        amc05$scID <- "sortid" # ID that matches the sub-catchment boundaries in the shape file
         
         data <- amc05
         id="scID"
@@ -373,7 +373,7 @@ VizumapServer <- function(input, output, session) {
         
         shp@data$OBJECTID <- as.integer(shp@data[,id]) 
         
-        estimate <- "Population"
+        estimate <- "Estimate"
         error <- "Error"
         name <- input$nameInput
       }
@@ -419,7 +419,6 @@ VizumapServer <- function(input, output, session) {
       exc_data <- data
       exc_name <- "exc"
       
-    } else if(datatype == 'GBR') {
       
       load(system.file("shinyApp/data", "burd_data.rda", package = "VizumApp"))
       load(system.file("shinyApp/data", "burd_geo.rda", package = "VizumApp"))
@@ -435,7 +434,7 @@ VizumapServer <- function(input, output, session) {
       error = "sd"
       # Reorder the columns to what Vizumap wants (estimate, error, ...)
       amc05 <- read.uv(data = amc_0506, estimate = estimate, error = error)
-      amc05$scID <- sortid # ID that matches the sub-catchment boundaries in the shape file
+      amc05$scID <- "sortid" # ID that matches the sub-catchment boundaries in the shape file
       
       data <- amc05
       id="scID"
@@ -459,7 +458,7 @@ VizumapServer <- function(input, output, session) {
       
       shp@data$OBJECTID <- as.integer(shp@data[,id]) 
       
-      estimate <- "Population"
+      estimate <- "Estimate"
       error <- "Error"
       name <- input$nameInput
 
@@ -536,7 +535,7 @@ VizumapServer <- function(input, output, session) {
   #Build Leaflet
   output$map <- renderLeaflet({
      leaflet(options = leafletOptions()) %>%
-      addProviderTiles("Esri.WorldImagery") %>%
+      addProviderTiles("OpenStreetMap.Mapnik") %>%#("Esri.WorldImagery") %>%
       addControl(sliderInput(session$ns("transparency"), "Transparency", min=0, max=1, step=0.01, value = 0.6), position = "topright") %>%
       setView(lat=-26.74561, lng=135.1865, zoom=4)
   })
