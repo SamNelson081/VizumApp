@@ -73,9 +73,6 @@ VizumapUI <- function(id) {
              checkboxInput(ns("useCurrent"), "Use a column from the current dataset?"),
               conditionalPanel("input.useCurrent == true", ns=ns, 
                 uiOutput(ns("excColCurrent"))           
-              ),             
-              conditionalPanel("input.useCurrent == false", ns=ns, 
-                fileInput(ns("excDataset"), "Upload a Dataset", accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv"))
               ),
               uiOutput(ns("excCol"))
               ),
@@ -241,7 +238,7 @@ VizumapServer <- function(input, output, session) {
         name <- "SUBBASIN"
         # Reorder the columns to what Vizumap wants (estimate, error, ...)
         amc05 <- read.uv(data = amc_0506, estimate = estimate, error = error)
-        amc05$scID <- "sortid" # ID that matches the sub-catchment boundaries in the shape file
+        amc05$scID <- sortid # ID that matches the sub-catchment boundaries in the shape file
         
         data <- amc05
         id="scID"
@@ -357,7 +354,7 @@ VizumapServer <- function(input, output, session) {
         error = "sd"
         # Reorder the columns to what Vizumap wants (estimate, error, ...)
         amc05 <- read.uv(data = amc_0506, estimate = estimate, error = error)
-        amc05$scID <- "sortid" # ID that matches the sub-catchment boundaries in the shape file
+        amc05$scID <- sortid # ID that matches the sub-catchment boundaries in the shape file
         
         data <- amc05
         id="scID"
@@ -419,6 +416,7 @@ VizumapServer <- function(input, output, session) {
       exc_data <- data
       exc_name <- "exc"
       
+      } else if(datatype == "GBR") {
       
       load(system.file("shinyApp/data", "burd_data.rda", package = "VizumApp"))
       load(system.file("shinyApp/data", "burd_geo.rda", package = "VizumApp"))
@@ -720,10 +718,6 @@ VizumapServer <- function(input, output, session) {
       req(input$csvDataset)
       
       return(selectizeInput(session$ns("excColCurrent"), "Excedance Column", unique(c(names(shapefile()@data), names(userDataset())))))
-    } else {
-      
-      req(input$excDataset)
-      return(selectizeInput(session$ns("excColCurrent"), "Excedance Column", names(excDataset())))
     }
    
   })
