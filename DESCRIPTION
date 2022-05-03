@@ -33,6 +33,8 @@ Imports:
     shinyjs,
     sp,
     Vizumap
+Remotes:
+    lydialucchesi/Vizumap
 License: GPL-3
 LazyLoad: TRUE
 LazyData: TRUE
