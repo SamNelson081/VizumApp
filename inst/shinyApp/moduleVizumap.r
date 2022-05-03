@@ -241,7 +241,7 @@ VizumapServer <- function(input, output, session) {
         name <- "SUBBASIN"
         # Reorder the columns to what Vizumap wants (estimate, error, ...)
         amc05 <- read.uv(data = amc_0506, estimate = estimate, error = error)
-        amc05$scID <- "sortid" # ID that matches the sub-catchment boundaries in the shape file
+        amc05$scID <- sortid # ID that matches the sub-catchment boundaries in the shape file
         
         data <- amc05
         id="scID"
@@ -418,7 +418,8 @@ VizumapServer <- function(input, output, session) {
       data$exc <- pdist(pname = pdflist$dist, th = pdflist$th, args = args_call)
       exc_data <- data
       exc_name <- "exc"
-      
+    }
+    else if(datatype == "GBR"){
       
       load(system.file("shinyApp/data", "burd_data.rda", package = "VizumApp"))
       load(system.file("shinyApp/data", "burd_geo.rda", package = "VizumApp"))
@@ -462,6 +463,19 @@ VizumapServer <- function(input, output, session) {
       error <- "Error"
       name <- input$nameInput
 
+      
+      pd <- quote({ pexp(q, rate, lower.tail = FALSE) })
+      #---- define argument listing
+      args <- quote({ list(rate = 1/data$Estimate) })
+      #---- capture distribution and arguments in a single list
+      pdflist <- list(dist = pd, args = args, th = quantile(data$Estimate, 0.8))
+      
+      args_call <- eval(do.call("substitute", list(pdflist$args, list(data$Estimate, data$Error))))
+      
+      data$exc <- pdist(pname = pdflist$dist, th = pdflist$th, args = args_call)
+      exc_data <- data
+      exc_name <- "exc"
+      
       
     }
     
