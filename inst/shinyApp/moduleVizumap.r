@@ -168,9 +168,6 @@ VizumapServer <- function(input, output, session) {
         
         data$OBJECTID <- as.integer(data$OBJECTID)
         
-        View(shp)
-        View(data)
-        
         id <- as.character(input$idMatch)
         
         
@@ -248,9 +245,6 @@ VizumapServer <- function(input, output, session) {
         data <- userDataset()
         
         data$OBJECTID <- as.integer(data$OBJECTID)
-        
-        View(shp)
-        View(data)
         
         id <- as.character(input$idMatch)
         
