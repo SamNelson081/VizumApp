@@ -1,9 +1,4 @@
 
-<!-- badges: start -->
-
-[![R-CMD-check](https://github.com/SamNelson081/Vizumap-App/workflows/R-CMD-check/badge.svg)](https://github.com/SamNelson081/Vizumap-App/actions)
-<!-- badges: end -->
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # VizumApp
@@ -12,7 +7,7 @@
 
 ## Installation
 
-You can install a development version of the `Vizumap` package using the
+You can install a development version of the `VizumApp` package using the
 command below.
 
     remotes::install_github(repo = "SamNelson081/VizumApp", force = TRUE)
