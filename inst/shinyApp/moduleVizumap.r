@@ -541,7 +541,7 @@ VizumapServer <- function(input, output, session) {
   #Build Leaflet
   output$map <- renderLeaflet({
      leaflet(options = leafletOptions()) %>%
-      addProviderTiles("OpenStreetMap.Mapnik") %>%#("Esri.WorldImagery") %>%
+      addProviderTiles("Esri.WorldImagery") %>%
       addControl(sliderInput(session$ns("transparency"), "Transparency", min=0, max=1, step=0.01, value = 0.6), position = "topright") %>%
       setView(lat=-26.74561, lng=135.1865, zoom=4)
   })
