@@ -53,7 +53,8 @@ need to select all 4 files (UB.dbf, UB.prj, UB.shp and UB.shx). The
 `.csv` file is read in separately. Once read in, you are ready to select
 a visualisation.
 
-To illustrate how to do this, watch this short video.
+To illustrate how to do this, watch this short
+[video](https://youtu.be/LkX59z99Bo4).
 
 ## Link to VizumApp
 
