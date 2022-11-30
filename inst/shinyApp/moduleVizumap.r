@@ -14,6 +14,7 @@ library("scales")
 library("DescTools")
 library("geojson")
 library("shinydashboardPlus")
+library(shinymeta)
 
 VizumapUI <- function(id) {
   ns <- NS(id)
@@ -87,7 +88,9 @@ VizumapUI <- function(id) {
                            fluidRow(
                              column(6, prettyCheckbox(ns("flipX"), "Flip Horizontal", FALSE)),
                              column(6, prettyCheckbox(ns("flipY"), "Flip Vertical", FALSE))
-                           )),
+                           ),
+                           prettyCheckbox(ns("subtractive"), "Subtractive Colour Mixing", FALSE)
+                           ),
           conditionalPanel("input.plotType == 'Glyph' || input.plotType == 'Pixel' || input.plotType == 'Excedance'", ns = ns,
                           fluidRow(
                              column(6, colourpicker::colourInput(ns("glyphCol1"), "Colour 1", "red")),
@@ -504,7 +507,7 @@ VizumapServer <- function(input, output, session) {
   })
   
   palette <- reactive({
-    build_palette("usr", colrange = list(colour = c(input$paletteL, input$paletteR), difC = c(4, 4)), flipHorizontal = input$flipX, flipVertical = input$flipY)
+    build_palette("usr", colrange = list(colour = c(input$paletteL, input$paletteR), difC = c(3, 4)), flipHorizontal = input$flipX, flipVertical = input$flipY, subtractive = input$subtractive)
 
      })
   
