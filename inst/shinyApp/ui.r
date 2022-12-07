@@ -4,7 +4,7 @@ library("shinycssloaders")
 
 
 #Source dependencies
-#source(system.file("shinyApp", "moduleVizumap.r", package="VizumApp"))
+source(system.file("shinyApp", "moduleVizumap.r", package="VizumApp"))
 load(system.file("shinyApp/data/", "UB_JOSS.rda", package = "VizumApp"))
 
 ui <- fluidPage(
