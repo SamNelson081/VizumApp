@@ -14,6 +14,8 @@ let checkExist = setInterval(() => {
         map.dragging.enable();
 	});
 	
+	L.simpleMapScreenshoter().addTo(map)
+	
 	clearInterval(checkExist);
    }
 }, 100); // check every 100ms

@@ -30,6 +30,7 @@ VizumapUI <- function(id) {
           includeScript("https://raw.githubusercontent.com/lwsu/leaflet-polygon-fillPattern/master/leaflet-polygon.fillPattern.js"),
           #LeafletJS Material Icon Library
           tags$script(src = 'leaflet.icon-material.js'),
+          includeScript("https://unpkg.com/leaflet-simple-map-screenshoter"),
           includeCSS("https://raw.githubusercontent.com/ilyankou/Leaflet.IconMaterial/master/dist/leaflet.icon-material.css"),
           
           #Custom CSS for Map Height
@@ -504,7 +505,7 @@ VizumapServer <- function(input, output, session) {
   })
   
   palette <- reactive({
-    build_palette("usr", colrange = list(colour = c(input$paletteL, input$paletteR), difC = c(4, 4)), flipHorizontal = input$flipX, flipVertical = input$flipY)
+    build_palette("usr", colrange = list(colour = c(input$paletteL, input$paletteR), difC = c(4, 4)), flipHorizontal = input$flipX, flipVertical = input$flipY, subtractive = TRUE)
 
      })
   
