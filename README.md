@@ -5,7 +5,7 @@
 
 ## Installation and Running
 
-You can install a development version of the `Vizumap` package using the
+You can install a development version of the `VizumApp` package using the
 command below.
 
     remotes::install_github(repo = "SamNelson081/VizumApp")
