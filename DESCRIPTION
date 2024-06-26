@@ -25,13 +25,13 @@ Imports:
     htmlwidgets,
     shiny,
     ggplot2,
-    rgdal,
-    rgeos,
+    sf,
     scales,
     shinyalert,
     shinydashboardPlus,
     shinyjs,
     sp,
+    wrapr,
     Vizumap
 Remotes:
     lydialucchesi/Vizumap

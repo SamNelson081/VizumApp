@@ -1,7 +1,5 @@
 library("Vizumap")
 library("leaflet")
-library("rgdal")
-library("rgeos")
 library("sp")
 library("ggplot2")
 library("htmltools")
@@ -14,7 +12,9 @@ library("scales")
 library("DescTools")
 library("geojson")
 library("shinydashboardPlus")
-library(shinymeta)
+library("shinymeta")
+library("sf")
+library("wrapr")
 
 VizumapUI <- function(id) {
   ns <- NS(id)
@@ -133,10 +133,8 @@ VizumapServer <- function(input, output, session) {
         #Load data
         data(us_data)
         
-        #Relative path to my machine
- #       shp <- readOGR(dsn = "./data/USshp", layer = "05000")
-        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
-                       layer = "05000")
+        shp <- st_read(system.file("shinyApp/extdata/USShp", "05000.shp", package = "VizumApp"))
+        shp <- as(shp, "Spatial")
         
         estimate = "pov_rate"
         error = "pov_moe"
@@ -183,7 +181,7 @@ VizumapServer <- function(input, output, session) {
       }
       
       shp <- spTransform(shp,"+init=epsg:4326")
-      centroids <- gCentroid(shp, byid=TRUE)
+      centroids <- as(st_centroid(st_as_sf(shp)), "Spatial")
       
     
       #Get the data
@@ -191,7 +189,7 @@ VizumapServer <- function(input, output, session) {
       
       m <<- build_gmap(data = data, geoData = shp, id = id, border = "state", palette = "Purples")
       
-      data <- data[order(data[id]),]
+      data <- data[orderv(data[id]),]
       return(list(type = "glyph", dataset = data, polygons = shp, centroids = centroids, map = m, palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error))
       
     })
@@ -209,8 +207,8 @@ VizumapServer <- function(input, output, session) {
         data(us_data)
   
         #Relative path to my machine
-        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
-                       layer = "05000")
+        shp <- st_read(system.file("shinyApp/extdata/USShp", "05000.shp", package = "VizumApp"))
+        shp <- as(shp, "Spatial")
         
         estimate = "pov_rate"
         error = "pov_moe"
@@ -258,9 +256,10 @@ VizumapServer <- function(input, output, session) {
         estimate <- "Estimate"
         error <- "Error"
         name <- input$nameInput
+        
+        shp <- spTransform(shp, "+init=epsg:4326")
       }
-      
-      shp <- spTransform(shp, "+init=epsg:4326")
+      shp <- spTransform(shp,"+init=epsg:4326")
       
       #Get the data
       incProgress(1/4, detail = paste("Building map and key..."))
@@ -312,7 +311,7 @@ VizumapServer <- function(input, output, session) {
     })
     
     
-    data <- data[order(data[id]),]
+    data <- data[orderv(data[id]),]
 
     return(list(type = "bivariate", dataset = data, polygons = data_polys, polylines = data_lines, map = m))
   }
@@ -325,8 +324,8 @@ VizumapServer <- function(input, output, session) {
         data(us_data)
         
         #Relative path to my machine
-        shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
-                       layer = "05000")
+        shp <- st_read(system.file("shinyApp/extdata/USShp", "05000.shp", package = "VizumApp"))
+        shp <- as(shp, "Spatial")
         
         estimate = "pov_rate"
         error = "pov_moe"
@@ -379,7 +378,7 @@ VizumapServer <- function(input, output, session) {
       #Get the data
      
       
-      data <- data[order(data[id]),]
+      data <- data[orderv(data[id]),]
     return(list(type = "pixel", dataset = data, polygons = as.geojson(shp), palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error))#, map = m, palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error))
   }
   
@@ -391,8 +390,8 @@ VizumapServer <- function(input, output, session) {
       data(us_data)
       
       #Relative path to my machine
-      shp <- readOGR(dsn = system.file("shinyApp/extdata", "USshp", package = "VizumApp"),
-                     layer = "05000")
+      shp <- st_read(system.file("shinyApp/extdata/USShp", "05000.shp", package = "VizumApp"))
+      shp <- as(shp, "Spatial")
       
       estimate = "pov_rate"
       error = "pov_moe"
@@ -485,8 +484,8 @@ VizumapServer <- function(input, output, session) {
       
     }
     
-    data <- data[order(data[id]),]
-    exc_data <- exc_data[order(exc_data[id]),]
+    data <- data[orderv(data[id]),]
+    exc_data <- exc_data[orderv(exc_data[id]),]
     
     return(list(type = "excedance", dataset = data, polygons = as.geojson(shp), exc = exc_data, palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error, exc_name = exc_name))# map = m, exc = exc_data, palette = c(input$glyphCol1, input$glyphCol2), estimate=estimate, error=error, exc_name = exc_name))
   }
@@ -644,9 +643,10 @@ VizumapServer <- function(input, output, session) {
     
     #Read in Shapefile
     reader <- tryCatch({
-      readOGR(paste(tempdirname,
+      as(st_read(paste(tempdirname,
                     shpdf$name[grep(pattern = "*.shp$", shpdf$name)],
-                    sep = "/"))
+                    sep = "/")), "Spatial")
+      
     }, error = function(e) {
       shinyalert("Whoops!", "We couldn't read in that shapefile! Make sure you are uploading the 
                   .shp, .shx, .prj and .dbf files all at once so we can read it! 
